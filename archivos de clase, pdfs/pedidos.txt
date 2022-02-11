@@ -1,0 +1,18 @@
+customer-id 1289
+T83456
+customer-id 1289
+customer-id 1205
+T10032
+B77301
+customer-id 1205
+customer-id 1410
+K34001
+T98987
+customer-id 1410
+customer-id 1205
+T10786
+C77502
+customer-id 1205
+customer-id 1289
+Z22334
+customer-id 1289
