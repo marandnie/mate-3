@@ -1,0 +1,22 @@
+{%- assign s = include.s -%}
+<section id="{{ s.id }}" class="clase evaluacion">
+  {% include slides/etiqueta.html s=s %}
+  <h2>{{ s.titulo }}</h2>
+  <div class="columnas">
+    <div class="columna">
+      <p class="bajada-chica">Una clase <code>Grafo</code> que hereda de <code>nx.Graph</code>, un grafo ponderado de 8 nodos y una expresión regular para leer vuelos.</p>
+      <figure class="figura-grafo">
+{% include slides/grafo-parcial-2.svg %}
+        <figcaption>Camino mínimo de A a H con Dijkstra: <strong>A, D, C, B, F, E, H</strong> (peso 23)</figcaption>
+      </figure>
+      <ul class="datos">
+        <li>radio <strong>2</strong></li>
+        <li>diámetro <strong>3</strong></li>
+        <li>densidad <strong>0,54</strong></li>
+        <li>centro <strong>B, C, E, F</strong></li>
+      </ul>
+      <p class="regex"><code>(\w{3});\w{3};\d*\.\d*;(\d*\.\d*)</code> <span aria-hidden="true">→</span> <code>('AEP', '680.00')</code></p>
+    </div>
+    {% include slides/codigo.html codigo=s.codigo %}
+  </div>
+</section>

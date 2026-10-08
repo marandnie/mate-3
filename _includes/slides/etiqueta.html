@@ -1,0 +1,11 @@
+{%- assign s = include.s -%}
+<p class="etiqueta">
+  {%- if s.etiqueta -%}
+    {{ s.etiqueta }}
+  {%- elsif s.numero -%}
+    Clase {{ s.numero | prepend: '0' | slice: -2, 2 }}{% if s.fecha %} · {{ s.fecha }}{% endif %}
+  {%- else -%}
+    {{ s.fecha }}
+  {%- endif -%}
+  {%- if s.evaluacion %} <span class="marca">Evaluación</span>{% endif -%}
+</p>

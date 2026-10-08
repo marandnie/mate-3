@@ -1,0 +1,21 @@
+{%- assign s = include.s -%}
+<section id="{{ s.id }}" class="clase evaluacion">
+  {% include slides/etiqueta.html s=s %}
+  <h2>{{ s.titulo }}</h2>
+  <div class="graficos">
+    <figure class="tarjeta">
+      <img src="{{ '/assets/img/tp-franja-horaria.png' | relative_url }}" width="393" height="277"
+           alt="Boxplot de la duración del viaje en minutos por franja horaria: madrugada, mañana, noche y tarde. La tarde tiene la mediana y la dispersión más altas.">
+    </figure>
+    <figure class="tarjeta">
+      <img src="{{ '/assets/img/tp-misma-estacion.png' | relative_url }}" width="492" height="277"
+           alt="Boxplot de la duración del viaje según si termina en la misma estación de origen. Los viajes que vuelven a la misma estación duran bastante más.">
+    </figure>
+  </div>
+  <ul class="hallazgos">
+    <li>El modelo ordena las franjas así: <strong>tarde &gt; noche &gt; mañana &gt; madrugada</strong>. Se confirma la hipótesis.</li>
+    <li>Devolver la bici en la misma estación alarga el viaje: es un paseo, no un traslado.</li>
+    <li>Error medio absoluto de <strong>19 minutos</strong> (la mediana de un viaje es 18), después de descartar 4 predicciones absurdas.</li>
+  </ul>
+  <blockquote class="conclusion">"La componente humana en este dataset es tan grande que no es posible realizar una predicción que tenga un margen de error comparable con el de otros fenómenos." Próximo paso: sumar el clima y el día de la semana.</blockquote>
+</section>

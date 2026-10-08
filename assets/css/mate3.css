@@ -1,0 +1,301 @@
+/*
+ * Mate 3: estilos propios sobre el tema "moon" de reveal.js (paleta Solarized).
+ * No se toca el CSS de reveal: todo se sobrescribe acá.
+ */
+
+:root {
+  --amarillo: #b58900;
+  --cian: #2aa198;
+  --azul: #268bd2;
+  --base03: #002b36;
+  --base02: #073642;
+  --base01: #586e75;
+  --base0: #839496;
+  --base1: #93a1a1;
+  --base2: #eee8d5;
+  --borde: rgba(147, 161, 161, 0.28);
+
+  --r-main-font-size: 34px;
+  --r-link-color: #2aa198;
+  --r-link-color-hover: #eee8d5;
+  --r-code-font: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+.reveal .slides { text-align: left; }
+.reveal .slides section.portada,
+.reveal .slides section.mapa,
+.reveal .slides section.cierre { text-align: center; }
+
+.reveal h1 { font-size: 3.4em; margin: 0.1em 0 0.15em; }
+.reveal h2 { font-size: 1.9em; margin: 0 0 0.55em; }
+
+/* Link fijo de vuelta al sitio */
+.reveal .volver {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  z-index: 30;
+  font-family: Lato, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  color: var(--base01);
+  text-decoration: none;
+}
+.reveal .volver::before { content: "← "; }
+.reveal .volver:hover,
+.reveal .volver:focus-visible { color: var(--base2); }
+
+/* Etiqueta arriba del título: "Clase 05 · 03/09/2021" */
+.reveal .etiqueta {
+  margin: 0 0 0.35em;
+  font-size: 0.5em;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amarillo);
+}
+.reveal .etiqueta .marca {
+  display: inline-block;
+  margin-left: 0.7em;
+  padding: 0.05em 0.55em;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  font-size: 0.85em;
+  vertical-align: 0.1em;
+}
+
+/* ---------- Portada ---------- */
+.portada .bajada { margin: 0; font-size: 0.95em; color: var(--base2); }
+.portada .autora { margin-top: 1.4em; font-size: 0.62em; color: var(--base1); }
+.portada .pista { margin-top: 2.6em; font-size: 0.44em; letter-spacing: 0.08em; color: var(--base0); }
+
+/* ---------- Mapa ---------- */
+.reveal ol.baldosas {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.reveal .baldosas a {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  height: 100%;
+  min-height: 150px;
+  box-sizing: border-box;
+  padding: 14px 14px 16px;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  text-align: left;
+  color: var(--base1);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.reveal .baldosas .num {
+  font-family: "League Gothic", Impact, sans-serif;
+  font-size: 1.7em;
+  line-height: 1;
+  color: var(--base2);
+}
+.reveal .baldosas .nombre { font-size: 0.5em; line-height: 1.25; }
+.reveal .baldosas a.evaluacion { border-color: var(--amarillo); }
+.reveal .baldosas a.evaluacion .num { color: var(--amarillo); }
+.reveal .baldosas a:hover,
+.reveal .baldosas a:focus-visible {
+  border-color: var(--cian);
+  background: rgba(42, 161, 152, 0.12);
+  color: var(--base2);
+  outline: none;
+}
+
+/* ---------- Clases ---------- */
+.reveal .columnas {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 44px;
+  align-items: start;
+}
+.reveal .columna > * + * { margin-top: 22px; }
+
+.reveal ul.temas,
+.reveal ul.hallazgos {
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.78em;
+  line-height: 1.4;
+}
+.reveal ul.temas li,
+.reveal ul.hallazgos li {
+  position: relative;
+  margin: 0 0 0.65em;
+  padding-left: 1.05em;
+}
+.reveal ul.temas li::before,
+.reveal ul.hallazgos li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.42em;
+  height: 0.42em;
+  border-radius: 2px;
+  background: var(--cian);
+}
+.reveal ul.temas.compacto { font-size: 0.66em; }
+.reveal ul.temas strong,
+.reveal ul.hallazgos strong { color: var(--base2); }
+
+/* Código */
+.reveal figure { margin: 0; }
+.reveal .codigo figcaption {
+  display: inline-block;
+  padding: 0.4em 0.9em;
+  border-radius: 6px 6px 0 0;
+  background: var(--base02);
+  font-size: 0.4em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--base1);
+}
+.reveal .codigo.propio figcaption { background: var(--amarillo); color: var(--base03); }
+.reveal .codigo pre {
+  width: 100%;
+  margin: 0;
+  font-size: 0.5em;
+  line-height: 1.5;
+  box-shadow: none;
+}
+.reveal .codigo pre code,
+.reveal .codigo .hljs {
+  max-height: none;
+  padding: 1em 1.2em;
+  border-radius: 0 8px 8px 8px;
+  background: var(--base02);
+  color: var(--base2);
+}
+.reveal .codigo .hljs-comment { color: #8b9e9e; font-style: italic; }
+
+/* Código en línea */
+.reveal p code,
+.reveal li code {
+  padding: 0.04em 0.25em;
+  border-radius: 4px;
+  background: var(--base02);
+  color: var(--base2);
+  font-size: 0.9em;
+}
+
+/* Imágenes de los notebooks (PNG con fondo blanco) */
+.reveal .tarjeta.venn img { max-height: 250px; width: auto; }
+.reveal .tarjeta {
+  display: inline-block;
+  padding: 10px;
+  border-radius: 10px;
+  background: #fff;
+  line-height: 0;
+}
+.reveal .tarjeta img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+/* ---------- 2.º parcial ---------- */
+.reveal .bajada-chica { margin: 0; font-size: 0.6em; line-height: 1.4; }
+.reveal .figura-grafo svg { display: block; width: 100%; height: auto; }
+.reveal .figura-grafo figcaption { margin-top: 8px; font-size: 0.48em; color: var(--base1); }
+.reveal .figura-grafo figcaption strong { color: var(--amarillo); }
+.grafo .arista { stroke: var(--base01); stroke-width: 2; }
+.grafo .arista.camino { stroke: var(--amarillo); stroke-width: 5; stroke-linecap: round; }
+.grafo .peso {
+  fill: var(--base0);
+  font: 15px Lato, sans-serif;
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: var(--base03);
+  stroke-width: 5px;
+}
+.grafo .peso.camino { fill: var(--amarillo); font-weight: 700; }
+.grafo .nodo circle { fill: var(--base02); stroke: var(--base1); stroke-width: 2; }
+.grafo .nodo.camino circle { stroke: var(--amarillo); stroke-width: 3; }
+.grafo .nodo text { fill: var(--base2); font: 700 18px Lato, sans-serif; text-anchor: middle; }
+
+.reveal ul.datos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.46em;
+}
+.reveal ul.datos li { padding: 0.2em 0.8em; border: 1px solid var(--borde); border-radius: 999px; }
+.reveal ul.datos strong { color: var(--base2); }
+.reveal .regex { margin: 0; font-size: 0.46em; line-height: 1.6; }
+
+/* ---------- TP: resultados ---------- */
+.reveal .graficos {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 26px;
+}
+.reveal ul.hallazgos { font-size: 0.62em; }
+.reveal blockquote.conclusion {
+  width: auto;
+  margin: 0.4em 0 0;
+  padding: 0.6em 1em;
+  border-left: 4px solid var(--amarillo);
+  background: rgba(7, 54, 66, 0.7);
+  box-shadow: none;
+  font-size: 0.52em;
+  line-height: 1.45;
+  text-align: left;
+}
+
+/* ---------- Cierre ---------- */
+.reveal ul.enlaces {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em;
+  margin: 0.4em 0 1.2em;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8em;
+}
+.reveal .volver-sitio { font-size: 0.6em; }
+.reveal .pie { margin-top: 2em; font-size: 0.4em; color: var(--base01); }
+
+/* Foco visible en todos los links */
+.reveal a:focus-visible { outline: 2px solid var(--cian); outline-offset: 3px; }
+
+/* ---------- Pantallas verticales (celular) ---------- */
+/* La clase la pone _includes/script.html cuando la ventana es más alta que ancha. */
+html.vertical .reveal h1 { font-size: 2.5em; }
+/* En el celular el link de arriba se superpone con las diapositivas largas:
+   queda solo en la portada (el cierre ya tiene su propio link). */
+html.vertical:not([data-diapo="portada"]) .reveal .volver { display: none; }
+html.vertical .reveal h2 { font-size: 1.55em; }
+html.vertical .reveal .columnas { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+html.vertical .reveal ol.baldosas { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+html.vertical .reveal .baldosas a {
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: flex-start;
+  min-height: 0;
+  padding: 10px 12px;
+}
+html.vertical .reveal .baldosas .nombre { font-size: 0.6em; }
+html.vertical .reveal .codigo pre { font-size: 0.48em; }
+html.vertical .reveal .tarjeta.venn img { max-height: 240px; width: auto; }
+html.vertical .reveal .codigo pre code { white-space: pre-wrap; word-break: break-word; }
+html.vertical .reveal .graficos { flex-direction: column; align-items: center; gap: 14px; }
+html.vertical .reveal .portada .bajada { font-size: 0.85em; }

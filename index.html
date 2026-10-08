@@ -1,13 +1,50 @@
 ---
 layout: presentation
 ---
+{%- comment -%}
+  Carrusel de Matemática III.
+  El contenido de cada clase está en _data/clases.yml; acá solo se arma el orden:
+  portada, mapa, una diapositiva por elemento de clases.yml y cierre.
+{%- endcomment -%}
 
-{% for post in site.posts reversed %}
-	{% include slide.html %}
-	<div class="page-break"></div>
+<section id="portada" class="portada">
+  <p class="etiqueta">Tecnicatura Universitaria en Programación Informática · UNSAM</p>
+  <h1>Matemática III</h1>
+  <p class="bajada">Python y ciencia de datos, clase por clase</p>
+  <p class="autora">Marina Nieto · 2.º cuatrimestre 2021</p>
+  <p class="pista">Pasá con las flechas o deslizá <span aria-hidden="true">→</span></p>
+</section>
+
+<section id="mapa" class="mapa">
+  <h2>Mapa de la materia</h2>
+  <nav aria-label="Clases de la materia">
+    <ol class="baldosas">
+      {%- for s in site.data.clases %}{% if s.mapa %}
+      <li><a href="#/{{ s.id }}"{% if s.evaluacion %} class="evaluacion"{% endif %}>
+        <span class="num">{% if s.sigla %}{{ s.sigla }}{% else %}{{ s.numero | prepend: '0' | slice: -2, 2 }}{% endif %}</span>
+        <span class="nombre">{{ s.mapa }}</span>
+      </a></li>
+      {%- endif %}{% endfor %}
+    </ol>
+  </nav>
+</section>
+
+{% for s in site.data.clases -%}
+{%- if s.include -%}
+  {%- capture plantilla %}slides/{{ s.include }}{% endcapture -%}
+  {% include {{ plantilla }} s=s %}
+{%- else -%}
+  {% include slides/clase.html s=s %}
+{%- endif %}
 {% endfor %}
-{% unless site.simple-slideshow %}
-{% if site.overview %}
-<section id="overview" class="step" {% for attr in site.overview-data %} data-{{attr[0]}}="{{attr[1]}}"{% endfor %}></section>
-{% endif %}
-{% endunless %}
+
+<section id="cierre" class="cierre">
+  <h2>¿Querés ver el código?</h2>
+  <ul class="enlaces">
+    <li><a href="{{ site.repo }}">Repo de la materia en GitHub</a></li>
+    <li><a href="{{ site.repo }}/blob/main/Tp_final_mate3_Nieto_Marina_Andrea.ipynb">TP final (notebook)</a></li>
+    <li><a href="{{ site.repo }}/tree/main/archivos%20de%20clase%2C%20pdfs/Parciales">Parciales y recuperatorio</a></li>
+  </ul>
+  <p class="volver-sitio"><a href="https://mandieto.com.ar/">Volver a mandieto.com.ar</a></p>
+  <p class="pie">Hecho con Jekyll y reveal.js · Please be kind. Rewind.</p>
+</section>

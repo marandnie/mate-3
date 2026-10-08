@@ -1,0 +1,41 @@
+<svg class="grafo" viewBox="20 0 590 330" role="img" aria-label="Grafo ponderado de 8 nodos, de A a H, con 15 aristas. Resaltado, el camino mínimo de A a H según Dijkstra: A, D, C, B, F, E, H, de peso total 23.">
+  <title>Camino mínimo de A a H (Dijkstra): A-D-C-B-F-E-H, peso 23</title>
+  <line class="arista" x1="60" y1="175" x2="220" y2="60"/>
+  <line class="arista" x1="60" y1="175" x2="270" y2="185"/>
+  <line class="arista camino" x1="60" y1="175" x2="170" y2="300"/>
+  <line class="arista camino" x1="220" y1="60" x2="270" y2="185"/>
+  <line class="arista camino" x1="220" y1="60" x2="410" y2="120"/>
+  <line class="arista" x1="220" y1="60" x2="440" y2="30"/>
+  <line class="arista camino" x1="270" y1="185" x2="170" y2="300"/>
+  <line class="arista" x1="270" y1="185" x2="430" y2="280"/>
+  <line class="arista" x1="270" y1="185" x2="410" y2="120"/>
+  <line class="arista" x1="170" y1="300" x2="430" y2="280"/>
+  <line class="arista camino" x1="430" y1="280" x2="410" y2="120"/>
+  <line class="arista camino" x1="430" y1="280" x2="570" y2="190"/>
+  <line class="arista" x1="410" y1="120" x2="440" y2="30"/>
+  <line class="arista" x1="410" y1="120" x2="570" y2="190"/>
+  <line class="arista" x1="440" y1="30" x2="570" y2="190"/>
+  <text class="peso" x="148" y="133">16</text>
+  <text class="peso" x="164" y="198">10</text>
+  <text class="peso camino" x="105" y="251">5</text>
+  <text class="peso camino" x="233" y="132">2</text>
+  <text class="peso camino" x="311" y="107">4</text>
+  <text class="peso" x="332" y="63">6</text>
+  <text class="peso camino" x="210" y="239">4</text>
+  <text class="peso" x="343" y="249">10</text>
+  <text class="peso" x="345" y="169">12</text>
+  <text class="peso" x="301" y="308">15</text>
+  <text class="peso camino" x="433" y="203">3</text>
+  <text class="peso camino" x="507" y="251">5</text>
+  <text class="peso" x="437" y="84">8</text>
+  <text class="peso" x="485" y="172">16</text>
+  <text class="peso" x="495" y="123">7</text>
+  <g class="nodo camino"><circle cx="60" cy="175" r="19"/><text x="60" y="182">A</text></g>
+  <g class="nodo camino"><circle cx="220" cy="60" r="19"/><text x="220" y="67">B</text></g>
+  <g class="nodo camino"><circle cx="270" cy="185" r="19"/><text x="270" y="192">C</text></g>
+  <g class="nodo camino"><circle cx="170" cy="300" r="19"/><text x="170" y="307">D</text></g>
+  <g class="nodo camino"><circle cx="430" cy="280" r="19"/><text x="430" y="287">E</text></g>
+  <g class="nodo camino"><circle cx="410" cy="120" r="19"/><text x="410" y="127">F</text></g>
+  <g class="nodo"><circle cx="440" cy="30" r="19"/><text x="440" y="37">G</text></g>
+  <g class="nodo camino"><circle cx="570" cy="190" r="19"/><text x="570" y="197">H</text></g>
+</svg>
