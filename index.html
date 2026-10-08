@@ -1,13 +1,71 @@
 ---
 layout: presentation
 ---
+{%- comment -%}
+  Carrusel de Matemática III.
+  El contenido de cada clase está en _data/clases.yml; acá solo se arma el orden:
+  portada, mapa, una diapositiva por elemento de clases.yml y cierre.
+{%- endcomment -%}
 
-{% for post in site.posts reversed %}
-	{% include slide.html %}
-	<div class="page-break"></div>
+<section id="portada" class="portada">
+  <p class="etiqueta">Tecnicatura Universitaria en Programación Informática · UNSAM</p>
+  <h1>Matemática III</h1>
+  <p class="bajada">Python y ciencia de datos, clase por clase</p>
+  <p class="autora">Marina Nieto · 2.º cuatrimestre 2021</p>
+  <p class="docente">Docente: Mónica Hencek</p>
+  <p class="pista">Pasá con las flechas o deslizá <span aria-hidden="true">→</span></p>
+</section>
+
+<section id="mapa" class="mapa">
+  <h2>Mapa de la materia</h2>
+  <nav aria-label="Clases de la materia">
+    <ol class="baldosas">
+      {%- for item in site.data.clases %}{% if item.mapa %}
+      <li><a href="#/{{ item.id }}"{% if item.evaluacion %} class="evaluacion"{% endif %}>
+        <span class="num">{% if item.sigla %}{{ item.sigla }}{% else %}{{ item.numero | prepend: '0' | slice: -2, 2 }}{% endif %}</span>
+        <span class="nombre">{{ item.mapa }}</span>
+        {%- if item.detalle %}
+        <span class="abajo" title="{{ item.detalle.size }} diapositivas de detalle"><span aria-hidden="true">↓</span> {{ item.detalle.size }}<span class="solo-lectores"> diapositivas de detalle</span></span>
+        {%- endif %}
+      </a></li>
+      {%- endif %}{% endfor %}
+    </ol>
+  </nav>
+</section>
+
+{% for item in site.data.clases -%}
+{%- comment -%} Con `detalle`, la diapositiva y sus detalles van en una pila vertical. {%- endcomment -%}
+{%- if item.detalle %}
+<section class="pila">
+{%- endif -%}
+{%- if item.include -%}
+  {%- capture plantilla %}slides/{{ item.include }}{% endcapture -%}
+  {% include {{ plantilla }} s=item %}
+{%- else -%}
+  {% include slides/clase.html s=item %}
+{%- endif -%}
+{%- if item.detalle -%}
+  {%- assign total = item.detalle.size | plus: 1 -%}
+  {%- for d in item.detalle -%}
+    {%- assign pos = forloop.index | plus: 1 -%}
+    {%- if d.include -%}
+      {%- capture plantilla %}slides/{{ d.include }}{% endcapture -%}
+      {% include {{ plantilla }} s=d padre=item pos=pos total=total %}
+    {%- else -%}
+      {% include slides/detalle.html s=d padre=item pos=pos total=total %}
+    {%- endif -%}
+  {%- endfor %}
+</section>
+{%- endif %}
 {% endfor %}
-{% unless site.simple-slideshow %}
-{% if site.overview %}
-<section id="overview" class="step" {% for attr in site.overview-data %} data-{{attr[0]}}="{{attr[1]}}"{% endfor %}></section>
-{% endif %}
-{% endunless %}
+
+<section id="cierre" class="cierre">
+  <h2>¿Querés ver el código?</h2>
+  <ul class="enlaces">
+    <li><a href="{{ site.repo }}">Repo de la materia en GitHub</a></li>
+    <li><a href="{{ site.repo }}/blob/main/Tp_final_mate3_Nieto_Marina_Andrea.ipynb">TP final (notebook)</a></li>
+    <li><a href="{{ site.repo }}/tree/main/archivos%20de%20clase%2C%20pdfs/Parciales">Parciales y recuperatorio</a></li>
+  </ul>
+  <p class="volver-sitio"><a href="https://mandieto.com.ar/">Volver a mandieto.com.ar</a></p>
+  <p class="pie">Hecho con Jekyll y reveal.js · Please be kind. Rewind.</p>
+</section>

@@ -1,22 +1,59 @@
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+{%- assign titulo = page.title | default: site.title -%}
+{%- assign descripcion = page.description | default: site.description | strip_newlines | strip -%}
+{%- assign url_canonica = page.url | absolute_url | replace: 'index.html', '' -%}
+{%- assign revealjs = '/node-modules/reveal.js-master' | relative_url -%}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ titulo }} | {{ site.author }}</title>
+  <meta name="description" content="{{ descripcion }}">
+  <meta name="author" content="{{ site.author }}">
+  <link rel="canonical" href="{{ url_canonica }}">
 
-<title>{% if post.title %}{{ post.title }} | {{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="{{ site.locale }}">
+  <meta property="og:site_name" content="El sitio web de Marina">
+  <meta property="og:title" content="{{ titulo }}">
+  <meta property="og:description" content="{{ descripcion }}">
+  <meta property="og:url" content="{{ url_canonica }}">
+  <meta property="og:image" content="{{ site.image.path | absolute_url }}">
+  <meta property="og:image:width" content="{{ site.image.width }}">
+  <meta property="og:image:height" content="{{ site.image.height }}">
+  <meta property="og:image:alt" content="Portada del carrusel de Matemática III">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" content="@marinieto">
 
-<link rel="stylesheet" href="{{ site.baseurl }}/node_modules/reveal.js/css/reveal.css">
+  <link rel="icon" href="https://mandieto.com.ar/favicon.ico" sizes="48x48">
+  <link rel="icon" href="https://mandieto.com.ar/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="https://mandieto.com.ar/apple-touch-icon.png">
 
-<link rel="stylesheet" href="{{site.baseurl}}/node_modules/reveal.js/css/reset.css">
-<link rel="stylesheet" href="{{site.baseurl}}/node_modules/reveal.js/css/reveal.css">
-<link rel="stylesheet" href="{{site.baseurl}}/node_modules/reveal.js/css/theme/moon.css">
+  <!-- reveal.js 4.2.1, desde este mismo repo -->
+  <link rel="stylesheet" href="{{ revealjs }}/dist/reset.css">
+  <link rel="stylesheet" href="{{ revealjs }}/dist/reveal.css">
+  <link rel="stylesheet" href="{{ revealjs }}/dist/theme/moon.css">
+  <link rel="stylesheet" href="{{ revealjs }}/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="{{ '/assets/css/mate3.css' | relative_url }}">
 
-<!-- Theme used for syntax highlighting of code -->
-<link rel="stylesheet" href="{{site.baseurl}}/node_modules/reveal.js/lib/css/monokai.css">
-
-<!-- Printing and PDF exports -->
-<script>
-	var link = document.createElement( 'link' );
-	link.rel = 'stylesheet';
-	link.type = 'text/css';
-	link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'node_modules/reveal.js/css/print/paper.css';
-	document.getElementsByTagName( 'head' )[0].appendChild( link );
-</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": {{ url_canonica | append: '#webpage' | jsonify }},
+        "url": {{ url_canonica | jsonify }},
+        "name": {{ titulo | jsonify }},
+        "description": {{ descripcion | jsonify }},
+        "inLanguage": {{ site.lang | jsonify }},
+        "image": {{ site.image.path | absolute_url | jsonify }},
+        "isPartOf": { "@id": "https://mandieto.com.ar/#website" },
+        "author": { "@id": "https://mandieto.com.ar/#person" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://mandieto.com.ar/#person",
+        "name": {{ site.author | jsonify }},
+        "url": "https://mandieto.com.ar/about/"
+      }
+    ]
+  }
+  </script>

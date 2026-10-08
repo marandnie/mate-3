@@ -1,0 +1,7 @@
+{%- assign c = include.codigo -%}
+{%- if c -%}
+<figure class="codigo{% if c.origen %} propio{% endif %}">
+  <figcaption>{{ c.origen | default: 'Ejemplo' }}</figcaption>
+  <pre><code class="language-{{ c.lenguaje | default: 'python' }}">{{ c.texto | rstrip | escape }}</code></pre>
+</figure>
+{%- endif -%}

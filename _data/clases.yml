@@ -1,0 +1,550 @@
+# Contenido del carrusel, en orden.
+#
+# Cada elemento es una diapositiva:
+#   id          ancla de la URL (/mate-3/#/clase-05)
+#   numero      número de clase (para la etiqueta "Clase 05")
+#   fecha       como se muestra
+#   etiqueta    opcional: reemplaza a "Clase NN · fecha" arriba del título
+#   titulo      título de la diapositiva
+#   mapa        texto de la baldosa en el mapa (si falta, no aparece en el mapa)
+#   sigla       opcional: reemplaza al número en la baldosa (P2, TP)
+#   evaluacion  true en parciales y TP (se resaltan en amarillo)
+#   temas       3 o 4 viñetas; acepta `código en línea` (con comillas en el YAML)
+#   codigo      fragmento de código:
+#                 origen  opcional; si está, marca que el código es de una entrega mía
+#                 texto   el código (mejor si las líneas no pasan de ~50 caracteres)
+#   include     opcional: diapositiva con HTML propio en _includes/slides/
+#   detalle     opcional: diapositivas que quedan "abajo" (flecha hacia abajo).
+#               Cada una tiene id y titulo, y puede tener:
+#                 bajada   texto corto arriba
+#                 temas    viñetas
+#                 tabla    { columnas: [...], filas: [[...], ...] }
+#                 cifras   [ { valor, texto } ]   números grandes
+#                 barras   { unidad, filas: [ { texto, valor, base, nota } ] }
+#                 codigo   igual que arriba
+#                 salida   lo que imprimió el notebook
+#                 cita, cita_nota, enlace { texto, id }
+#                 include  diapositiva con HTML propio
+#
+# Las fechas salen de los nombres de las carpetas de cada clase.
+
+- id: clase-01
+  numero: 1
+  fecha: 06/08/2021
+  titulo: Primeros pasos
+  mapa: Primeros pasos
+  temas:
+    - Python 3, VS Code y Jupyter Notebook
+    - "Elementos de un programa: palabras reservadas, literales, operadores e identificadores"
+    - Variables y tipo booleano
+    - "Entrada y salida: `input()`, `print()` y cadenas f"
+  codigo:
+    texto: |
+      def main():
+          nombre = input("Escriba su nombre: ")
+          print(f"¡Hola, {nombre}!")
+
+
+      if __name__ == "__main__":
+          main()
+
+- id: clase-02
+  numero: 2
+  fecha: 13/08/2021
+  titulo: Objetos y condicionales
+  mapa: Objetos y condicionales
+  temas:
+    - "Todo es un objeto: identidad, tipo y valor (`id()`, `type()`)"
+    - Objetos mutables e inmutables
+    - "Condicionales: `if`, `elif` y `else`"
+  codigo:
+    texto: |
+      a = [1, 2, 3]
+      b = a            # mismo objeto
+      b.append(4)
+      print(a)         # [1, 2, 3, 4]
+
+      x = 5
+      y = x
+      y += 1           # int es inmutable
+      print(x, y)      # 5 6
+
+      if y > x:
+          print("y es mayor")
+      elif y == x:
+          print("son iguales")
+      else:
+          print("x es mayor")
+
+- id: clase-03
+  numero: 3
+  fecha: 20/08/2021
+  titulo: Listas, ciclos y colecciones
+  mapa: Listas y ciclos
+  temas:
+    - "Listas y `range()`"
+    - "Ciclos `for` y `while`"
+    - Tuplas, conjuntos y diccionarios
+  codigo:
+    texto: |
+      cuadrados = []
+      for n in range(1, 6):
+          cuadrados.append(n ** 2)
+      # [1, 4, 9, 16, 25]
+
+      i = 0
+      while cuadrados[i] < 10:
+          i += 1       # termina con i == 3
+
+      colores = ("rojo", "verde")   # tupla
+      vistos = {"rojo", "azul"}     # conjunto
+      stock = {"rojo": 3, "azul": 0}
+      for color, cant in stock.items():
+          print(color, cant)
+
+- id: clase-04
+  numero: 4
+  fecha: 27/08/2021
+  titulo: Gráficos con Matplotlib
+  mapa: Matplotlib
+  temas:
+    - "Anatomía de una figura: `Figure`, `Axes`, ejes y leyenda"
+    - "Varios gráficos en una figura con `subplots`"
+    - Conjuntos y diagramas de Venn
+  codigo:
+    texto: |
+      import matplotlib.pyplot as plt
+      import numpy as np
+
+      x = np.linspace(0, 2 * np.pi, 100)
+      fig, (ax1, ax2) = plt.subplots(1, 2)
+      ax1.plot(x, np.sin(x), label="seno")
+      ax2.plot(x, np.cos(x), label="coseno")
+      for ax in (ax1, ax2):
+          ax.legend()
+      plt.show()
+
+- id: clase-05
+  numero: 5
+  fecha: 03/09/2021
+  titulo: Funciones
+  mapa: Funciones
+  temas:
+    - "Definir funciones con `def` y devolver valores con `return`"
+    - Parámetros, argumentos por defecto y por nombre
+    - Variables locales y globales
+    - "Funciones `lambda`"
+  codigo:
+    texto: |
+      def area_circulo(radio, pi=3.14159):
+          """Devuelve el área de un círculo."""
+          return pi * radio ** 2
+
+
+      area_circulo(2)              # 12.56636
+      area_circulo(radio=2, pi=3)  # 12
+
+      doble = lambda n: n * 2
+      list(map(doble, [1, 2, 3]))  # [2, 4, 6]
+
+- id: clase-06
+  numero: 6
+  fecha: 10/09/2021
+  titulo: Arrays con NumPy
+  mapa: NumPy
+  temas:
+    - "`ndarray`: creación, forma (`shape`) y tipo de dato"
+    - Operaciones elemento a elemento y agregaciones
+    - Indexación, slicing y filtros booleanos
+  codigo:
+    texto: |
+      import numpy as np
+
+      m = np.arange(12).reshape(3, 4)
+      # [[ 0  1  2  3]
+      #  [ 4  5  6  7]
+      #  [ 8  9 10 11]]
+
+      m[:, 1]        # columna: [1 5 9]
+      m[1:, 2:]      # [[ 6  7] [10 11]]
+      m[m > 8]       # filtro: [ 9 10 11]
+      m.sum(axis=0)  # [12 15 18 21]
+
+- id: clase-07
+  numero: 7
+  fecha: 17/09/2021
+  titulo: Análisis de datos con Pandas
+  mapa: Pandas
+  temas:
+    - "`Series` y `DataFrame`"
+    - Leer y explorar datos desde CSV y Excel
+    - "Selección con `loc` e `iloc`, filtros y agrupaciones"
+  codigo:
+    texto: |
+      import pandas as pd
+
+      df = pd.read_csv("Salaries.csv")
+      df.describe()
+
+      # salario promedio por cargo
+      df.groupby("rank")["salary"].mean()
+
+      # más de 20 años de antigüedad
+      df.loc[df["yrs.service"] > 20,
+             ["rank", "salary"]]
+
+      df.iloc[:5, 1:4]  # 5 filas, columnas 1 a 3
+
+- id: clase-08
+  numero: 8
+  fecha: 24/09/2021
+  titulo: Grafos con NetworkX
+  mapa: Grafos
+  temas:
+    - "Teoría de grafos: nodos, aristas, pesos y dirección"
+    - De una matriz de adyacencia a un grafo
+    - Caminos mínimos con Dijkstra (rutas de vuelos y de combis)
+  codigo:
+    texto: |
+      import networkx as nx
+
+      G = nx.Graph()
+      G.add_weighted_edges_from([
+          ("A", "B", 4), ("A", "E", 5),
+          ("E", "F", 6), ("F", "H", 11),
+      ])
+
+      nx.dijkstra_path(G, "A", "H")
+      # ['A', 'E', 'F', 'H']
+      nx.dijkstra_path_length(G, "A", "H")
+      # 22
+
+- id: clase-09
+  numero: 9
+  fecha: 01/10/2021
+  titulo: "1.er parcial: conjuntos y Venn"
+  mapa: 1.er parcial
+  evaluacion: true
+  include: parcial-1.html
+  temas:
+    - "Encuesta a 1000 personas sobre Economía, Educación y Seguridad"
+    - "Modelar las respuestas como conjuntos (`set`): intersecciones y diferencias"
+    - "Diagrama de Venn de tres conjuntos con `matplotlib-venn`"
+  codigo:
+    origen: Del 1.er parcial
+    texto: |
+      diagram = venn3(
+          subsets=(Seguridad, Educacion, Economia),
+          set_labels=('Seguridad', 'Educacion',
+                      'Economia'))
+
+      intersegedueco = set(Seguridad
+          .intersection(Educacion)
+          .intersection(Economia))
+      interedueco = set(
+          Economia.intersection(Educacion))
+      intersegedu = set(
+          Seguridad.intersection(Educacion))
+  detalle:
+    - id: clase-09-consigna
+      titulo: La consigna
+      bajada: >-
+        Los datos de la encuesta llegaron en tres estructuras distintas.
+        El primer paso fue pasarlas todas a conjuntos para poder operar.
+      tabla:
+        columnas: [Tema, Personas, Cómo venía el dato]
+        filas:
+          - [Economía, "680", "`dict` con 8 subtemas: impuestos, corrupción, obra pública, planes y otros"]
+          - [Educación, "490", "`list` de 7 valores"]
+          - [Seguridad, "320", "`tuple` de 6 valores"]
+      temas:
+        - "Preguntas a responder sobre el gráfico: cuántos opinaron de los tres temas, de solo Economía y Educación, de un solo tema y de 2 de los 3."
+      codigo:
+        origen: Del 1.er parcial
+        texto: |
+          # 680 opinaron sobre Economía
+          Economia = {"Gasto_público": 40, "Impuestos": 118,
+                      "Política_y_gobierno": 50,
+                      "Deuda_externa": 95, "Privilegios": 56,
+                      "Corrupción": 131, "Obra_pública": 103,
+                      "Planes": 87}
+          # 320 opinaron sobre Seguridad
+          Seguridad = (40, 50, 60, 75, 34, 61)
+          # 490 opinaron sobre Educación
+          Educacion = [34, 40, 61, 75, 87, 90, 103]
+
+          Seguridad = set([40, 50, 60, 75, 34, 61])
+          Educacion = set([34, 40, 61, 75, 87, 90, 103])
+          Economia = set(Economia.values())
+
+- id: clase-10
+  numero: 10
+  fecha: 15/10/2021
+  titulo: Clases, módulos y excepciones
+  mapa: Clases
+  temas:
+    - "Clases y objetos: atributos, métodos y `__init__`"
+    - Herencia
+    - Módulos y paquetes
+    - "Errores y excepciones: `try`, `except`, `finally` y `raise`"
+  codigo:
+    texto: |
+      class Cuenta:
+          def __init__(self, titular, saldo=0):
+              self.titular = titular
+              self.saldo = saldo
+
+          def extraer(self, monto):
+              if monto > self.saldo:
+                  raise ValueError("Saldo insuficiente")
+              self.saldo -= monto
+
+
+      try:
+          Cuenta("Ana", 100).extraer(500)
+      except ValueError as error:
+          print(error)  # Saldo insuficiente
+
+- id: clase-11
+  numero: 11
+  fecha: 22/10/2021
+  titulo: Expresiones regulares
+  mapa: Regex
+  temas:
+    - "Patrones: literales, clases de caracteres, cuantificadores y grupos"
+    - "Módulo `re`: `search`, `match`, `findall`, `sub` y `compile`"
+    - Probar y depurar patrones con regex101
+  codigo:
+    texto: |
+      import re
+
+      texto = "Turnos: 16:00, 18:30 y 20:15"
+
+      re.findall(r"(\d{2}):(\d{2})", texto)
+      # [('16', '00'), ('18', '30'), ('20', '15')]
+
+      re.sub(r":\d{2}", " hs", texto)
+      # 'Turnos: 16 hs, 18 hs y 20 hs'
+
+- id: clase-12
+  numero: 12
+  fecha: 29/10/2021
+  titulo: Python y ciencia de datos
+  mapa: Ciencia de datos
+  temas:
+    - "Etapas del análisis: del problema a comunicar resultados"
+    - Inteligencia artificial, machine learning y deep learning
+    - "Preprocesado: datos faltantes, variables categóricas, entrenamiento y prueba"
+    - Regresión lineal simple y múltiple con scikit-learn
+  codigo:
+    texto: |
+      from sklearn.linear_model import LinearRegression
+      from sklearn.metrics import mean_absolute_error
+      from sklearn.model_selection import train_test_split
+
+      X_train, X_test, y_train, y_test = \
+          train_test_split(X, y, test_size=0.2)
+
+      modelo = LinearRegression()
+      modelo.fit(X_train, y_train)
+      y_pred = modelo.predict(X_test)
+      mean_absolute_error(y_test, y_pred)
+  detalle:
+    - id: clase-12-etapas
+      titulo: Las 5 etapas, aplicadas al TP
+      bajada: >-
+        La clase presentó las etapas de un análisis de datos.
+        Así las recorrí en el TP final.
+      tabla:
+        columnas: [Etapa, En el TP de Ecobici]
+        filas:
+          - ["**1.** Detectar el problema", "¿Cuánto dura un viaje según la hora, el destino y quién lo hace?"]
+          - ["**2.** Obtener y preparar los datos", "Viajes de 2019 desde la estación 175: duración en minutos, franja horaria y nulos de género"]
+          - ["**3.** Explorar los datos", "Boxplots de la duración por franja horaria y por misma estación"]
+          - ["**4.** Modelizar y evaluar", "Regresión lineal múltiple con one-hot encoding; error medio absoluto de 19 minutos"]
+          - ["**5.** Comunicar los resultados", "El componente humano pesa más que las variables del dataset"]
+      enlace:
+        texto: Ver el TP final
+        id: tp-final
+
+- id: parcial-2
+  sigla: P2
+  fecha: 12/11/2021 y 19/11/2021
+  titulo: "2.º parcial: grafos y regex"
+  mapa: 2.º parcial
+  evaluacion: true
+  include: parcial-2.html
+  codigo:
+    origen: Del recuperatorio
+    texto: |
+      class Grafo(nx.Graph):
+        def __init__(
+            self,
+            lista_nodos=[],
+            pesos_enlaces=[]
+        ):
+          super().__init__(self)
+          self.add_nodes_from(lista_nodos)
+          self.add_weighted_edges_from(pesos_enlaces)
+
+      g = Grafo(lista_nodos, pesos_enlaces)
+      print(nx.algorithms.dijkstra_path(g, 'A', 'H'))
+      # ['A', 'D', 'C', 'B', 'F', 'E', 'H']
+      print(nx.algorithms.dijkstra_path_length(
+          g, 'A', 'H'))
+      # 23
+  detalle:
+    - id: parcial-2-metricas
+      titulo: El grafo en números
+      bajada: Todo lo que pedía el ejercicio del grafo, con lo que imprimió el notebook del recuperatorio.
+      tabla:
+        clase: ancha
+        columnas: [Pedido, Código, Resultado]
+        filas:
+          - [Vecinos de H, "`g.neighbors('H')`", "E, F, G"]
+          - [Aristas de cada nodo, "`g.degree()`", "A 3 · B 4 · C 5 · D 3 · E 4 · F 5 · G 3 · H 3"]
+          - [Camino mínimo de A a H, "`dijkstra_path(g, 'A', 'H')`", "A, D, C, B, F, E, H (peso 23)"]
+          - [Camino mínimo de C a H, "`dijkstra_path_length(g, 'C', 'H')`", "14"]
+          - [Radio y diámetro, "`nx.radius(g)`, `nx.diameter(g)`", "2 y 3"]
+          - [Excentricidad, "`nx.eccentricity(g)`", "2 en B, C, E, F; 3 en A, D, G, H"]
+          - [Centro y periferia, "`nx.center(g)`, `nx.periphery(g)`", "B, C, E, F y A, D, G, H"]
+          - [Densidad, "`nx.density(g)`", "0,536"]
+          - [Matrices de adyacencia e incidencia, "`nx.adjacency_matrix(g)`, `nx.incidence_matrix(g)`", "8 × 8 y 8 × 15"]
+          - [Grafo dirigido, "`g.to_directed()`", "Cada arista pasa a ir en los dos sentidos"]
+    - id: parcial-2-regex
+      titulo: "Regex: aeropuerto y precio"
+      bajada: >-
+        Cada línea trae aeropuerto de origen, aeropuerto de destino, duración y precio.
+        Había que quedarse con el origen y el precio.
+      temas:
+        - '`\s*` saltea los espacios al principio de la línea'
+        - '`(\w{3})` es el primer grupo: el aeropuerto de origen'
+        - '`;\w{3};\d*\.\d*;` pasa por el destino y la duración sin guardarlos'
+        - '`(\d*\.\d*)` es el segundo grupo: el precio'
+      codigo:
+        origen: Del recuperatorio
+        texto: |
+          texto = """AEP;CNQ;95.45;680.00
+                  EZE;IRJ;39.50;4780.00
+                  JNI;COC;51.44;1160.00
+                  LPG;AEP;66.26;7580.00
+                  MDQ;GPO;18.85;720.00
+                  FDO;RYO;26.49;340.00
+          """
+          p = re.compile(
+              "\s*(\w{3});\w{3};\d*\.\d*;(\d*\.\d*)",
+              re.MULTILINE)
+          print(p.findall(texto))
+      salida: |
+        [('AEP', '680.00'), ('EZE', '4780.00'),
+         ('JNI', '1160.00'), ('LPG', '7580.00'),
+         ('MDQ', '720.00'), ('FDO', '340.00')]
+
+- id: tp-final
+  sigla: TP
+  etiqueta: Trabajo práctico final
+  titulo: "TP final: ¿cuánto dura un viaje en Ecobici?"
+  mapa: TP final
+  evaluacion: true
+  include: tp-planteo.html
+  codigo:
+    origen: Del TP final
+    texto: |
+      def franja_horaria(row):
+        s = re.split("\s|:", row)
+        hora_recorrido = int(s[1])
+        if 6 <= hora_recorrido <= 12:
+          return "mañana"
+        elif 12 < hora_recorrido <= 18:
+          return "tarde"
+        elif 18 < hora_recorrido <= 23:
+          return "noche"
+        else:
+          return "madrugada"
+
+      dataset["franja_horaria_recorrido"] = \
+        dataset.fecha_origen_recorrido \
+               .apply(franja_horaria)
+  detalle:
+    - id: tp-datos
+      titulo: Preparación de los datos
+      temas:
+        - "**77.136 viajes** que salen de la estación 175, con **395 estaciones de destino** distintas."
+        - "Duración: mediana de **18 minutos**, promedio de 30 y un máximo de 1422 (casi un día entero)."
+        - "Género: el **99 %** de los viajes figura como NO INFORMADO (76.369). Solo 767 tienen el dato."
+        - "Nueva columna `misma_estacion`: si la bici vuelve a donde salió."
+      codigo:
+        origen: Del TP final
+        texto: |
+          dataset = dataset[dataset.id_estacion_origen == 175]
+
+          # pasar a "NO INFORMADO" los not a numbers de genero
+          dataset.loc[dataset["genero_usuario"].isna(),
+                      "genero_usuario"] = 'NO INFORMADO'
+
+          def minutos_de_tiempo(row):
+            s = re.split("\s|:", row)
+            return int(s[2])*60 + int(s[3])
+
+          dataset["duracion_minutos"] = \
+            dataset.duracion_recorrido.apply(minutos_de_tiempo)
+
+          dataset["misma_estacion"] = (
+            dataset["id_estacion_origen"]
+            == dataset["id_estacion_destino"])
+    - id: tp-modelo
+      titulo: Modelo y error
+      cifras:
+        - valor: "8.115.320.096"
+          texto: minutos de error medio absoluto en la primera corrida
+        - valor: "18,98"
+          texto: minutos de error medio absoluto sin las 4 predicciones absurdas
+      temas:
+        - "4 viajes daban predicciones de entre 8 y 98 billones de minutos. Al mismo viaje con otra estación de destino el modelo le da 27,8 minutos: el problema está en esos datos de destino."
+        - "Sin esos 4, el error cuadrático medio de raíz (RMSE) es de 54,5 minutos."
+      codigo:
+        origen: Del TP final
+        texto: |
+          onehotencoder = make_column_transformer(
+              (OneHotEncoder(), cat_cols),
+              remainder="passthrough")
+          X = onehotencoder.fit_transform(X).todense()
+
+          X_train, X_test, y_train, y_test = \
+              train_test_split(X, y, test_size=0.2,
+                               random_state=0)
+
+          regression = LinearRegression()
+          regression.fit(X_train, y_train)
+          y_pred = regression.predict(X_test)
+          print('Error Medio Absoluto (MAE):',
+                metrics.mean_absolute_error(y_test, y_pred))
+    - id: tp-resultados
+      titulo: Resultados
+      include: tp-resultados.html
+    - id: tp-simulaciones
+      titulo: ¿Cuánto tarda este viaje?
+      bajada: >-
+        Con tantas variables categóricas los coeficientes son difíciles de leer.
+        Por eso probé el modelo con un mismo viaje, cambiando una variable por vez.
+      barras:
+        unidad: min
+        filas:
+          - texto: "Viaje base: hombre, de tarde, sale y vuelve a la 175"
+            valor: 48.2
+            base: true
+          - texto: Lo hace una mujer
+            valor: 50.2
+            nota: solo 767 viajes tienen género
+          - texto: De noche
+            valor: 46.3
+          - texto: De mañana
+            valor: 44.4
+          - texto: De madrugada
+            valor: 38.9
+          - texto: Termina en otra estación cercana (la 75)
+            valor: 7.4
+      cita: >-
+        "La componente humana en este dataset es tan grande que no es posible realizar
+        una predicción que tenga un margen de error comparable con el de otros fenómenos."
+      cita_nota: "Próximo paso: sumar el clima y el día de la semana."

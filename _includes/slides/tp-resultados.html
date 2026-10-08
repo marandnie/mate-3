@@ -1,0 +1,19 @@
+{%- assign diapo = include.s -%}
+<section id="{{ diapo.id }}" class="clase detalle evaluacion">
+  {% include slides/etiqueta.html s=diapo padre=include.padre pos=include.pos total=include.total %}
+  <h2>{{ diapo.titulo }}</h2>
+  <div class="graficos">
+    <figure class="tarjeta">
+      <img src="{{ '/assets/img/tp-franja-horaria.png' | relative_url }}" width="393" height="277"
+           alt="Boxplot de la duración del viaje en minutos por franja horaria: madrugada, mañana, noche y tarde. La tarde tiene la mediana y la dispersión más altas.">
+    </figure>
+    <figure class="tarjeta">
+      <img src="{{ '/assets/img/tp-misma-estacion.png' | relative_url }}" width="492" height="277"
+           alt="Boxplot de la duración del viaje según si termina en la misma estación de origen. Los viajes que vuelven a la misma estación duran bastante más.">
+    </figure>
+  </div>
+  <ul class="hallazgos">
+    <li>El modelo ordena las franjas así: <strong>tarde &gt; noche &gt; mañana &gt; madrugada</strong>. Se confirma la hipótesis.</li>
+    <li>Devolver la bici en la misma estación alarga el viaje: es un paseo, no un traslado.</li>
+  </ul>
+</section>

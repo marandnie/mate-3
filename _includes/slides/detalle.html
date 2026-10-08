@@ -1,0 +1,82 @@
+{%- comment -%}
+  Diapositiva de detalle genérica (va debajo de su diapositiva principal).
+  Campos posibles en _data/clases.yml: bajada, temas, tabla, cifras, barras,
+  codigo, salida, cita, cita_nota, enlace. Ver el encabezado de ese archivo.
+{%- endcomment -%}
+{%- assign diapo = include.s -%}
+{%- if diapo.codigo or diapo.salida -%}{%- assign dos_columnas = true -%}{%- else -%}{%- assign dos_columnas = false -%}{%- endif -%}
+<section id="{{ diapo.id }}" class="clase detalle{% if include.padre.evaluacion %} evaluacion{% endif %}">
+  {% include slides/etiqueta.html s=diapo padre=include.padre pos=include.pos total=include.total %}
+  <h2>{{ diapo.titulo }}</h2>
+  <div class="{% if dos_columnas %}columnas{% else %}una-columna{% endif %}">
+    <div class="columna">
+      {%- if diapo.bajada %}
+      <p class="bajada-chica">{{ diapo.bajada | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
+      {%- endif %}
+
+      {%- if diapo.cifras %}
+      <div class="cifras">
+        {%- for c in diapo.cifras %}
+        <p class="cifra"><span class="valor">{{ c.valor }}</span> <span class="texto">{{ c.texto }}</span></p>
+        {%- endfor %}
+      </div>
+      {%- endif %}
+
+      {%- if diapo.tabla %}
+      <div class="tabla-contenedor">
+        <table class="datos-tabla{% if diapo.tabla.clase %} {{ diapo.tabla.clase }}{% endif %}">
+          <thead><tr>{% for c in diapo.tabla.columnas %}<th scope="col">{{ c }}</th>{% endfor %}</tr></thead>
+          <tbody>
+            {%- for fila in diapo.tabla.filas %}
+            <tr>{% for celda in fila %}<td>{{ celda | markdownify | remove: '<p>' | remove: '</p>' | strip }}</td>{% endfor %}</tr>
+            {%- endfor %}
+          </tbody>
+        </table>
+      </div>
+      {%- endif %}
+
+      {%- if diapo.barras %}
+      {%- assign maximo = 0 -%}
+      {%- for f in diapo.barras.filas -%}{%- if f.valor > maximo -%}{%- assign maximo = f.valor -%}{%- endif -%}{%- endfor %}
+      <ul class="barras">
+        {%- for f in diapo.barras.filas %}
+        {%- assign ancho = f.valor | times: 100.0 | divided_by: maximo | round: 1 %}
+        <li{% if f.base %} class="base"{% endif %}>
+          <span class="texto">{{ f.texto }}{% if f.nota %} <small>({{ f.nota }})</small>{% endif %}</span>
+          <span class="pista-barra"><span class="barra" style="width: {{ ancho }}%"></span></span>
+          <span class="valor">{{ f.valor | replace: '.', ',' }} {{ diapo.barras.unidad }}</span>
+        </li>
+        {%- endfor %}
+      </ul>
+      {%- endif %}
+
+      {%- if diapo.temas %}
+      <ul class="temas compacto">
+        {%- for tema in diapo.temas %}
+        <li>{{ tema | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>
+        {%- endfor %}
+      </ul>
+      {%- endif %}
+
+      {%- if diapo.cita %}
+      <blockquote class="conclusion">{{ diapo.cita }}{% if diapo.cita_nota %} <span class="nota">{{ diapo.cita_nota }}</span>{% endif %}</blockquote>
+      {%- endif %}
+
+      {%- if diapo.enlace %}
+      <p class="enlace-interno"><a href="#/{{ diapo.enlace.id }}">{{ diapo.enlace.texto }} <span aria-hidden="true">→</span></a></p>
+      {%- endif %}
+    </div>
+
+    {%- if dos_columnas %}
+    <div class="columna">
+      {% include slides/codigo.html codigo=diapo.codigo %}
+      {%- if diapo.salida %}
+      <figure class="codigo salida">
+        <figcaption>Salida</figcaption>
+        <pre><code class="nohighlight">{{ diapo.salida | rstrip | escape }}</code></pre>
+      </figure>
+      {%- endif %}
+    </div>
+    {%- endif %}
+  </div>
+</section>

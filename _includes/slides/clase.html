@@ -1,0 +1,13 @@
+{%- assign diapo = include.s -%}
+<section id="{{ diapo.id }}" class="clase">
+  {% include slides/etiqueta.html s=diapo %}
+  <h2>{{ diapo.titulo }}</h2>
+  <div class="columnas">
+    <ul class="temas">
+      {%- for tema in diapo.temas %}
+      <li>{{ tema | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>
+      {%- endfor %}
+    </ul>
+    {% include slides/codigo.html codigo=diapo.codigo %}
+  </div>
+</section>

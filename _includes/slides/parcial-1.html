@@ -1,0 +1,19 @@
+{%- assign diapo = include.s -%}
+<section id="{{ diapo.id }}" class="clase evaluacion">
+  {% include slides/etiqueta.html s=diapo %}
+  <h2>{{ diapo.titulo }}</h2>
+  <div class="columnas">
+    <div class="columna">
+      <ul class="temas compacto">
+        {%- for tema in diapo.temas %}
+        <li>{{ tema | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>
+        {%- endfor %}
+      </ul>
+      <figure class="tarjeta venn">
+        <img src="{{ '/assets/img/parcial-1-venn.png' | relative_url }}" width="257" height="307"
+             alt="Diagrama de Venn de tres conjuntos (Seguridad, Educación y Economía) con los totales de cada región, tal como salió del notebook del parcial">
+      </figure>
+    </div>
+    {% include slides/codigo.html codigo=diapo.codigo %}
+  </div>
+</section>

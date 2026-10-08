@@ -1,16 +1,37 @@
-<script src="{{ site.baseurl }}/node_modules/reveal.js/js/reveal.js"></script>
+{%- assign revealjs = '/node-modules/reveal.js-master' | relative_url -%}
+  <script src="{{ revealjs }}/dist/reveal.js"></script>
+  <script src="{{ revealjs }}/plugin/highlight/highlight.js"></script>
+  <script>
+    (function () {
+      // Opciones de _config.yml (clave `reveal`)
+      var opciones = {{ site.reveal | jsonify }};
+      var lienzo = {{ site.lienzo | jsonify }};
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				hash: true,
-				dependencies: [
-					{ src: 'node_modules/reveal.js/plugin/markdown/marked.js' },
-					{ src: 'node_modules/reveal.js/plugin/markdown/markdown.js' },
-					{ src: 'node_modules/reveal.js/plugin/highlight/highlight.js' },
-					{ src: 'node_modules/reveal.js/plugin/notes/notes.js', async: true }
-				]
-			});
-		</script>
+      // En pantallas verticales (celular) se usa un lienzo angosto y una sola columna.
+      function esVertical() { return window.innerHeight > window.innerWidth; }
+      function medidas(vertical) { return vertical ? lienzo.vertical : lienzo.horizontal; }
+
+      var vertical = esVertical();
+      document.documentElement.classList.toggle('vertical', vertical);
+      opciones.width = medidas(vertical).width;
+      opciones.height = medidas(vertical).height;
+      opciones.plugins = [RevealHighlight];
+
+      // Marca en <html> qué diapositiva se ve (el CSS lo usa en modo vertical).
+      function marcar(evento) {
+        document.documentElement.dataset.diapo = evento.currentSlide.id;
+      }
+      Reveal.on('ready', marcar);
+      Reveal.on('slidechanged', marcar);
+
+      Reveal.initialize(opciones);
+
+      window.addEventListener('resize', function () {
+        var ahora = esVertical();
+        if (ahora === vertical) return;
+        vertical = ahora;
+        document.documentElement.classList.toggle('vertical', vertical);
+        Reveal.configure(medidas(vertical));
+      });
+    })();
+  </script>
