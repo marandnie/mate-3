@@ -46,8 +46,15 @@
 .reveal .volver:focus-visible { color: var(--base2); }
 
 /* Etiqueta arriba del título: "Clase 05 · 03/09/2021" */
-.reveal .etiqueta {
+.reveal .etiqueta-fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.4em 1em;
   margin: 0 0 0.35em;
+}
+.reveal .etiqueta {
+  margin: 0;
   font-size: 0.5em;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -64,9 +71,37 @@
   vertical-align: 0.1em;
 }
 
+/* Link a las diapositivas de detalle (pila vertical) */
+.reveal .mas-detalle {
+  flex: none;
+  padding: 0.25em 0.8em;
+  border: 1px solid var(--cian);
+  border-radius: 999px;
+  font-size: 0.42em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--cian);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.reveal .mas-detalle:hover,
+.reveal .mas-detalle:focus-visible { background: var(--cian); color: var(--base03); }
+.reveal .etiqueta .marca.posicion { color: var(--base1); }
+
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 /* ---------- Portada ---------- */
 .portada .bajada { margin: 0; font-size: 0.95em; color: var(--base2); }
 .portada .autora { margin-top: 1.4em; font-size: 0.62em; color: var(--base1); }
+.portada .docente { margin: 0.35em 0 0; font-size: 0.5em; color: var(--base0); }
 .portada .pista { margin-top: 2.6em; font-size: 0.44em; letter-spacing: 0.08em; color: var(--base0); }
 
 /* ---------- Mapa ---------- */
@@ -79,6 +114,7 @@
   list-style: none;
 }
 .reveal .baldosas a {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -100,6 +136,14 @@
   color: var(--base2);
 }
 .reveal .baldosas .nombre { font-size: 0.5em; line-height: 1.25; }
+.reveal .baldosas .abajo {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 0.42em;
+  font-weight: 700;
+  color: var(--cian);
+}
 .reveal .baldosas a.evaluacion { border-color: var(--amarillo); }
 .reveal .baldosas a.evaluacion .num { color: var(--amarillo); }
 .reveal .baldosas a:hover,
@@ -117,7 +161,8 @@
   gap: 44px;
   align-items: start;
 }
-.reveal .columna > * + * { margin-top: 22px; }
+.reveal .columna { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+.reveal .columna > .tarjeta { align-self: flex-start; }
 
 .reveal ul.temas,
 .reveal ul.hallazgos {
@@ -260,6 +305,101 @@
   text-align: left;
 }
 
+/* ---------- Diapositivas de detalle ---------- */
+.reveal .detalle h2 { font-size: 1.6em; }
+.reveal .una-columna > .columna { max-width: 980px; }
+
+.reveal .tabla-contenedor { overflow-x: auto; }
+.reveal table.datos-tabla {
+  width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+  font-size: 0.5em;
+  line-height: 1.35;
+}
+.reveal table.datos-tabla.ancha { font-size: 0.44em; }
+.reveal table.datos-tabla th {
+  padding: 0.4em 0.7em;
+  border-bottom: 1px solid var(--borde);
+  font-size: 0.8em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: left;
+  text-transform: uppercase;
+  color: var(--base1);
+}
+.reveal table.datos-tabla td {
+  padding: 0.45em 0.7em;
+  border-bottom: 1px solid rgba(147, 161, 161, 0.14);
+  vertical-align: top;
+  text-align: left;
+}
+.reveal table.datos-tabla td:first-child { color: var(--base2); }
+.reveal table.datos-tabla td code { font-size: 0.88em; }
+
+.reveal .cifras {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.reveal .cifra { margin: 0; font-size: 0.5em; line-height: 1.35; }
+.reveal .cifra .valor {
+  display: block;
+  margin-bottom: 0.1em;
+  font-family: "League Gothic", Impact, sans-serif;
+  font-size: 3.2em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--base1);
+}
+.reveal .cifra:last-child .valor { color: var(--amarillo); }
+
+.reveal ul.barras {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.52em;
+}
+.reveal ul.barras li {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr) 5em;
+  align-items: center;
+  gap: 16px;
+}
+.reveal ul.barras .texto { line-height: 1.3; }
+.reveal ul.barras small { color: var(--base0); font-size: 0.85em; }
+.reveal ul.barras .pista-barra {
+  display: block;
+  height: 18px;
+  border-radius: 4px;
+  background: var(--base02);
+}
+.reveal ul.barras .barra {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--cian);
+}
+.reveal ul.barras li.base .barra { background: var(--amarillo); }
+.reveal ul.barras li.base .texto { color: var(--base2); }
+.reveal ul.barras .valor {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--base2);
+}
+
+.reveal blockquote.conclusion .nota {
+  display: block;
+  margin-top: 0.4em;
+  font-style: normal;
+  color: var(--base1);
+}
+.reveal .enlace-interno { margin: 0; font-size: 0.55em; }
+.reveal .codigo.salida figcaption { background: var(--base01); color: var(--base2); }
+.reveal .codigo.salida pre code { color: var(--base1); }
+
 /* ---------- Cierre ---------- */
 .reveal ul.enlaces {
   display: flex;
@@ -299,3 +439,9 @@ html.vertical .reveal .tarjeta.venn img { max-height: 240px; width: auto; }
 html.vertical .reveal .codigo pre code { white-space: pre-wrap; word-break: break-word; }
 html.vertical .reveal .graficos { flex-direction: column; align-items: center; gap: 14px; }
 html.vertical .reveal .portada .bajada { font-size: 0.85em; }
+html.vertical .reveal .etiqueta-fila { flex-wrap: wrap; }
+html.vertical .reveal .detalle h2 { font-size: 1.4em; }
+html.vertical .reveal .cifras { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+html.vertical .reveal ul.barras li { grid-template-columns: minmax(0, 1fr) 4.5em; gap: 4px 12px; }
+html.vertical .reveal ul.barras .texto { grid-column: 1 / -1; }
+html.vertical .reveal table.datos-tabla.ancha { font-size: 0.42em; }

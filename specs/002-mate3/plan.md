@@ -45,6 +45,50 @@ Las clases comunes usan la plantilla `_includes/slides/clase.html`. Las evaluaci
 
 Se eliminan `_posts/`, `_layouts/slide.html`, `_layouts/print.html` e `_includes/slide.html` (el esquema de posts con fecha `0000-01-0N`).
 
+### Diapositivas de detalle → pilas verticales (R18, R19)
+
+reveal.js arma una pila vertical cuando una `<section>` contiene otras `<section>`: la primera es la principal y las demás quedan "abajo" (flecha hacia abajo, tecla ↓, swipe hacia arriba). En `clases.yml`, un elemento con `detalle:` genera la pila:
+
+```yaml
+- id: tp-final
+  ...
+  detalle:
+    - id: tp-datos
+      titulo: Preparación de los datos
+      bajada: texto corto arriba          # opcional
+      temas: [ ... ]                      # opcional
+      tabla: { columnas: [...], filas: [[...], ...] }   # opcional
+      cifras: [ { valor: "18,98", texto: "minutos de error" } ]  # opcional
+      barras: { unidad: min, filas: [ { texto: ..., valor: 48.2 } ] }  # opcional
+      codigo: { origen: Del TP final, texto: ... }       # opcional
+      salida: |                           # opcional: salida impresa del notebook
+        ...
+    - id: tp-resultados
+      include: tp-resultados.html         # para lo que lleva imágenes
+```
+
+```
+section                      ← pila (sin id)
+├── section#tp-final         ← principal: link "Más detalle ↓" al pie
+├── section#tp-datos         ← plantilla genérica slides/detalle.html
+├── section#tp-modelo
+├── section#tp-resultados    ← include propio (boxplots)
+└── section#tp-simulaciones
+```
+
+- Plantilla genérica `_includes/slides/detalle.html`: a la izquierda bajada, temas, tabla, cifras o barras; a la derecha código y salida. Sin código ni salida, ocupa todo el ancho.
+- La etiqueta de cada detalle repite la del padre y suma la posición (`2 / 5`).
+- Las barras de las simulaciones del TP son `div` con ancho proporcional al valor (una sola escala, con el valor escrito al lado).
+- La salida de los notebooks se muestra en un bloque aparte con la clase `nohighlight` (sin colores de sintaxis).
+- En el mapa, la baldosa de una pila muestra cuántas diapositivas de detalle tiene.
+
+| Pila | Detalle | Fuente |
+|---|---|---|
+| 1.er parcial | La consigna: estructuras de datos y preguntas | Notebook del parcial |
+| Clase 12 | Las 5 etapas del análisis, aplicadas al TP | PDF de la clase 12 + TP |
+| 2.º parcial | El grafo en números; regex de aeropuertos y precios | Notebook del recuperatorio (salidas impresas) |
+| TP final | Preparación de datos; modelo y error; resultados; simulaciones y conclusión | Notebook del TP (código y salidas) |
+
 ### `<head>` → `_includes/head.html` (R12, R15)
 
 - `lang="es-AR"`, `<title>`, meta description, canonical, Open Graph y Twitter card desde `_config.yml`.
@@ -56,7 +100,7 @@ Se eliminan `_posts/`, `_layouts/slide.html`, `_layouts/print.html` e `_includes
 
 - `dist/reveal.js` + `plugin/highlight/highlight.js`. Se sacan markdown y notes (no se usan; hoy dan 404).
 - Opciones desde `site.reveal | jsonify` (`hash`, `controls`, `progress`, `slideNumber: "c/t"`, transición).
-- **Modo vertical:** si la ventana es más alta que ancha, se agrega la clase `vertical` al `<html>` y reveal usa un lienzo de 640×1100 en vez de 1200×760. Al rotar el teléfono se reconfigura con `Reveal.configure`. El CSS pasa las columnas a una sola.
+- **Modo vertical:** si la ventana es más alta que ancha, se agrega la clase `vertical` al `<html>` y reveal usa un lienzo de 540×1170 en vez de 1200×760. Al rotar el teléfono se reconfigura con `Reveal.configure`. El CSS pasa las columnas a una sola.
 
 ### Estilo → `assets/css/mate3.css` (R11)
 

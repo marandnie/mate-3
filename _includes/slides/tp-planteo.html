@@ -1,7 +1,7 @@
-{%- assign s = include.s -%}
-<section id="{{ s.id }}" class="clase evaluacion">
-  {% include slides/etiqueta.html s=s %}
-  <h2>{{ s.titulo }}</h2>
+{%- assign diapo = include.s -%}
+<section id="{{ diapo.id }}" class="clase evaluacion">
+  {% include slides/etiqueta.html s=diapo %}
+  <h2>{{ diapo.titulo }}</h2>
   <div class="columnas">
     <ul class="temas compacto">
       <li><strong>Datos:</strong> viajes de Ecobici de 2019 que salen de Esmeralda y Corrientes (estación 175, la de más viajes): 77.136 recorridos.</li>
@@ -9,6 +9,6 @@
       <li><strong>Modelo:</strong> regresión lineal múltiple con scikit-learn. Variables categóricas con one-hot encoding (404 columnas), 80 % para entrenar y 20 % para probar.</li>
       <li><strong>Hipótesis:</strong> los viajes de la tarde duran más, porque son más de paseo.</li>
     </ul>
-    {% include slides/codigo.html codigo=s.codigo %}
+    {% include slides/codigo.html codigo=diapo.codigo %}
   </div>
 </section>

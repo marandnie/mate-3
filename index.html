@@ -12,6 +12,7 @@ layout: presentation
   <h1>Matemática III</h1>
   <p class="bajada">Python y ciencia de datos, clase por clase</p>
   <p class="autora">Marina Nieto · 2.º cuatrimestre 2021</p>
+  <p class="docente">Docente: Mónica Hencek</p>
   <p class="pista">Pasá con las flechas o deslizá <span aria-hidden="true">→</span></p>
 </section>
 
@@ -19,22 +20,42 @@ layout: presentation
   <h2>Mapa de la materia</h2>
   <nav aria-label="Clases de la materia">
     <ol class="baldosas">
-      {%- for s in site.data.clases %}{% if s.mapa %}
-      <li><a href="#/{{ s.id }}"{% if s.evaluacion %} class="evaluacion"{% endif %}>
-        <span class="num">{% if s.sigla %}{{ s.sigla }}{% else %}{{ s.numero | prepend: '0' | slice: -2, 2 }}{% endif %}</span>
-        <span class="nombre">{{ s.mapa }}</span>
+      {%- for item in site.data.clases %}{% if item.mapa %}
+      <li><a href="#/{{ item.id }}"{% if item.evaluacion %} class="evaluacion"{% endif %}>
+        <span class="num">{% if item.sigla %}{{ item.sigla }}{% else %}{{ item.numero | prepend: '0' | slice: -2, 2 }}{% endif %}</span>
+        <span class="nombre">{{ item.mapa }}</span>
+        {%- if item.detalle %}
+        <span class="abajo" title="{{ item.detalle.size }} diapositivas de detalle"><span aria-hidden="true">↓</span> {{ item.detalle.size }}<span class="solo-lectores"> diapositivas de detalle</span></span>
+        {%- endif %}
       </a></li>
       {%- endif %}{% endfor %}
     </ol>
   </nav>
 </section>
 
-{% for s in site.data.clases -%}
-{%- if s.include -%}
-  {%- capture plantilla %}slides/{{ s.include }}{% endcapture -%}
-  {% include {{ plantilla }} s=s %}
+{% for item in site.data.clases -%}
+{%- comment -%} Con `detalle`, la diapositiva y sus detalles van en una pila vertical. {%- endcomment -%}
+{%- if item.detalle %}
+<section class="pila">
+{%- endif -%}
+{%- if item.include -%}
+  {%- capture plantilla %}slides/{{ item.include }}{% endcapture -%}
+  {% include {{ plantilla }} s=item %}
 {%- else -%}
-  {% include slides/clase.html s=s %}
+  {% include slides/clase.html s=item %}
+{%- endif -%}
+{%- if item.detalle -%}
+  {%- assign total = item.detalle.size | plus: 1 -%}
+  {%- for d in item.detalle -%}
+    {%- assign pos = forloop.index | plus: 1 -%}
+    {%- if d.include -%}
+      {%- capture plantilla %}slides/{{ d.include }}{% endcapture -%}
+      {% include {{ plantilla }} s=d padre=item pos=pos total=total %}
+    {%- else -%}
+      {% include slides/detalle.html s=d padre=item pos=pos total=total %}
+    {%- endif -%}
+  {%- endfor %}
+</section>
 {%- endif %}
 {% endfor %}
 

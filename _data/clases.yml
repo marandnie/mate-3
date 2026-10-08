@@ -14,6 +14,17 @@
 #                 origen  opcional; si está, marca que el código es de una entrega mía
 #                 texto   el código (mejor si las líneas no pasan de ~50 caracteres)
 #   include     opcional: diapositiva con HTML propio en _includes/slides/
+#   detalle     opcional: diapositivas que quedan "abajo" (flecha hacia abajo).
+#               Cada una tiene id y titulo, y puede tener:
+#                 bajada   texto corto arriba
+#                 temas    viñetas
+#                 tabla    { columnas: [...], filas: [[...], ...] }
+#                 cifras   [ { valor, texto } ]   números grandes
+#                 barras   { unidad, filas: [ { texto, valor, base, nota } ] }
+#                 codigo   igual que arriba
+#                 salida   lo que imprimió el notebook
+#                 cita, cita_nota, enlace { texto, id }
+#                 include  diapositiva con HTML propio
 #
 # Las fechas salen de los nombres de las carpetas de cada clase.
 
@@ -222,10 +233,6 @@
   codigo:
     origen: Del 1.er parcial
     texto: |
-      Seguridad = set([40, 50, 60, 75, 34, 61])
-      Educacion = set([34, 40, 61, 75, 87, 90, 103])
-      Economia = set(Economia.values())
-
       diagram = venn3(
           subsets=(Seguridad, Educacion, Economia),
           set_labels=('Seguridad', 'Educacion',
@@ -236,6 +243,39 @@
           .intersection(Economia))
       interedueco = set(
           Economia.intersection(Educacion))
+      intersegedu = set(
+          Seguridad.intersection(Educacion))
+  detalle:
+    - id: clase-09-consigna
+      titulo: La consigna
+      bajada: >-
+        Los datos de la encuesta llegaron en tres estructuras distintas.
+        El primer paso fue pasarlas todas a conjuntos para poder operar.
+      tabla:
+        columnas: [Tema, Personas, Cómo venía el dato]
+        filas:
+          - [Economía, "680", "`dict` con 8 subtemas: impuestos, corrupción, obra pública, planes y otros"]
+          - [Educación, "490", "`list` de 7 valores"]
+          - [Seguridad, "320", "`tuple` de 6 valores"]
+      temas:
+        - "Preguntas a responder sobre el gráfico: cuántos opinaron de los tres temas, de solo Economía y Educación, de un solo tema y de 2 de los 3."
+      codigo:
+        origen: Del 1.er parcial
+        texto: |
+          # 680 opinaron sobre Economía
+          Economia = {"Gasto_público": 40, "Impuestos": 118,
+                      "Política_y_gobierno": 50,
+                      "Deuda_externa": 95, "Privilegios": 56,
+                      "Corrupción": 131, "Obra_pública": 103,
+                      "Planes": 87}
+          # 320 opinaron sobre Seguridad
+          Seguridad = (40, 50, 60, 75, 34, 61)
+          # 490 opinaron sobre Educación
+          Educacion = [34, 40, 61, 75, 87, 90, 103]
+
+          Seguridad = set([40, 50, 60, 75, 34, 61])
+          Educacion = set([34, 40, 61, 75, 87, 90, 103])
+          Economia = set(Economia.values())
 
 - id: clase-10
   numero: 10
@@ -309,6 +349,23 @@
       modelo.fit(X_train, y_train)
       y_pred = modelo.predict(X_test)
       mean_absolute_error(y_test, y_pred)
+  detalle:
+    - id: clase-12-etapas
+      titulo: Las 5 etapas, aplicadas al TP
+      bajada: >-
+        La clase presentó las etapas de un análisis de datos.
+        Así las recorrí en el TP final.
+      tabla:
+        columnas: [Etapa, En el TP de Ecobici]
+        filas:
+          - ["**1.** Detectar el problema", "¿Cuánto dura un viaje según la hora, el destino y quién lo hace?"]
+          - ["**2.** Obtener y preparar los datos", "Viajes de 2019 desde la estación 175: duración en minutos, franja horaria y nulos de género"]
+          - ["**3.** Explorar los datos", "Boxplots de la duración por franja horaria y por misma estación"]
+          - ["**4.** Modelizar y evaluar", "Regresión lineal múltiple con one-hot encoding; error medio absoluto de 19 minutos"]
+          - ["**5.** Comunicar los resultados", "El componente humano pesa más que las variables del dataset"]
+      enlace:
+        texto: Ver el TP final
+        id: tp-final
 
 - id: parcial-2
   sigla: P2
@@ -336,6 +393,52 @@
       print(nx.algorithms.dijkstra_path_length(
           g, 'A', 'H'))
       # 23
+  detalle:
+    - id: parcial-2-metricas
+      titulo: El grafo en números
+      bajada: Todo lo que pedía el ejercicio del grafo, con lo que imprimió el notebook del recuperatorio.
+      tabla:
+        clase: ancha
+        columnas: [Pedido, Código, Resultado]
+        filas:
+          - [Vecinos de H, "`g.neighbors('H')`", "E, F, G"]
+          - [Aristas de cada nodo, "`g.degree()`", "A 3 · B 4 · C 5 · D 3 · E 4 · F 5 · G 3 · H 3"]
+          - [Camino mínimo de A a H, "`dijkstra_path(g, 'A', 'H')`", "A, D, C, B, F, E, H (peso 23)"]
+          - [Camino mínimo de C a H, "`dijkstra_path_length(g, 'C', 'H')`", "14"]
+          - [Radio y diámetro, "`nx.radius(g)`, `nx.diameter(g)`", "2 y 3"]
+          - [Excentricidad, "`nx.eccentricity(g)`", "2 en B, C, E, F; 3 en A, D, G, H"]
+          - [Centro y periferia, "`nx.center(g)`, `nx.periphery(g)`", "B, C, E, F y A, D, G, H"]
+          - [Densidad, "`nx.density(g)`", "0,536"]
+          - [Matrices de adyacencia e incidencia, "`nx.adjacency_matrix(g)`, `nx.incidence_matrix(g)`", "8 × 8 y 8 × 15"]
+          - [Grafo dirigido, "`g.to_directed()`", "Cada arista pasa a ir en los dos sentidos"]
+    - id: parcial-2-regex
+      titulo: "Regex: aeropuerto y precio"
+      bajada: >-
+        Cada línea trae aeropuerto de origen, aeropuerto de destino, duración y precio.
+        Había que quedarse con el origen y el precio.
+      temas:
+        - '`\s*` saltea los espacios al principio de la línea'
+        - '`(\w{3})` es el primer grupo: el aeropuerto de origen'
+        - '`;\w{3};\d*\.\d*;` pasa por el destino y la duración sin guardarlos'
+        - '`(\d*\.\d*)` es el segundo grupo: el precio'
+      codigo:
+        origen: Del recuperatorio
+        texto: |
+          texto = """AEP;CNQ;95.45;680.00
+                  EZE;IRJ;39.50;4780.00
+                  JNI;COC;51.44;1160.00
+                  LPG;AEP;66.26;7580.00
+                  MDQ;GPO;18.85;720.00
+                  FDO;RYO;26.49;340.00
+          """
+          p = re.compile(
+              "\s*(\w{3});\w{3};\d*\.\d*;(\d*\.\d*)",
+              re.MULTILINE)
+          print(p.findall(texto))
+      salida: |
+        [('AEP', '680.00'), ('EZE', '4780.00'),
+         ('JNI', '1160.00'), ('LPG', '7580.00'),
+         ('MDQ', '720.00'), ('FDO', '340.00')]
 
 - id: tp-final
   sigla: TP
@@ -362,9 +465,86 @@
       dataset["franja_horaria_recorrido"] = \
         dataset.fecha_origen_recorrido \
                .apply(franja_horaria)
+  detalle:
+    - id: tp-datos
+      titulo: Preparación de los datos
+      temas:
+        - "**77.136 viajes** que salen de la estación 175, con **395 estaciones de destino** distintas."
+        - "Duración: mediana de **18 minutos**, promedio de 30 y un máximo de 1422 (casi un día entero)."
+        - "Género: el **99 %** de los viajes figura como NO INFORMADO (76.369). Solo 767 tienen el dato."
+        - "Nueva columna `misma_estacion`: si la bici vuelve a donde salió."
+      codigo:
+        origen: Del TP final
+        texto: |
+          dataset = dataset[dataset.id_estacion_origen == 175]
 
-- id: tp-resultados
-  etiqueta: Trabajo práctico final
-  titulo: "TP final: resultados"
-  evaluacion: true
-  include: tp-resultados.html
+          # pasar a "NO INFORMADO" los not a numbers de genero
+          dataset.loc[dataset["genero_usuario"].isna(),
+                      "genero_usuario"] = 'NO INFORMADO'
+
+          def minutos_de_tiempo(row):
+            s = re.split("\s|:", row)
+            return int(s[2])*60 + int(s[3])
+
+          dataset["duracion_minutos"] = \
+            dataset.duracion_recorrido.apply(minutos_de_tiempo)
+
+          dataset["misma_estacion"] = (
+            dataset["id_estacion_origen"]
+            == dataset["id_estacion_destino"])
+    - id: tp-modelo
+      titulo: Modelo y error
+      cifras:
+        - valor: "8.115.320.096"
+          texto: minutos de error medio absoluto en la primera corrida
+        - valor: "18,98"
+          texto: minutos de error medio absoluto sin las 4 predicciones absurdas
+      temas:
+        - "4 viajes daban predicciones de entre 8 y 98 billones de minutos. Al mismo viaje con otra estación de destino el modelo le da 27,8 minutos: el problema está en esos datos de destino."
+        - "Sin esos 4, el error cuadrático medio de raíz (RMSE) es de 54,5 minutos."
+      codigo:
+        origen: Del TP final
+        texto: |
+          onehotencoder = make_column_transformer(
+              (OneHotEncoder(), cat_cols),
+              remainder="passthrough")
+          X = onehotencoder.fit_transform(X).todense()
+
+          X_train, X_test, y_train, y_test = \
+              train_test_split(X, y, test_size=0.2,
+                               random_state=0)
+
+          regression = LinearRegression()
+          regression.fit(X_train, y_train)
+          y_pred = regression.predict(X_test)
+          print('Error Medio Absoluto (MAE):',
+                metrics.mean_absolute_error(y_test, y_pred))
+    - id: tp-resultados
+      titulo: Resultados
+      include: tp-resultados.html
+    - id: tp-simulaciones
+      titulo: ¿Cuánto tarda este viaje?
+      bajada: >-
+        Con tantas variables categóricas los coeficientes son difíciles de leer.
+        Por eso probé el modelo con un mismo viaje, cambiando una variable por vez.
+      barras:
+        unidad: min
+        filas:
+          - texto: "Viaje base: hombre, de tarde, sale y vuelve a la 175"
+            valor: 48.2
+            base: true
+          - texto: Lo hace una mujer
+            valor: 50.2
+            nota: solo 767 viajes tienen género
+          - texto: De noche
+            valor: 46.3
+          - texto: De mañana
+            valor: 44.4
+          - texto: De madrugada
+            valor: 38.9
+          - texto: Termina en otra estación cercana (la 75)
+            valor: 7.4
+      cita: >-
+        "La componente humana en este dataset es tan grande que no es posible realizar
+        una predicción que tenga un margen de error comparable con el de otros fenómenos."
+      cita_nota: "Próximo paso: sumar el clima y el día de la semana."

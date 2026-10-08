@@ -1,10 +1,10 @@
-{%- assign s = include.s -%}
-<section id="{{ s.id }}" class="clase evaluacion">
-  {% include slides/etiqueta.html s=s %}
-  <h2>{{ s.titulo }}</h2>
+{%- assign diapo = include.s -%}
+<section id="{{ diapo.id }}" class="clase evaluacion">
+  {% include slides/etiqueta.html s=diapo %}
+  <h2>{{ diapo.titulo }}</h2>
   <div class="columnas">
     <div class="columna">
-      <p class="bajada-chica">Una clase <code>Grafo</code> que hereda de <code>nx.Graph</code>, un grafo ponderado de 8 nodos y una expresión regular para leer vuelos.</p>
+      <p class="bajada-chica">Una clase <code>Grafo</code> que hereda de <code>nx.Graph</code>, un grafo ponderado de 8 nodos y una expresión regular para leer datos de vuelos.</p>
       <figure class="figura-grafo">
 {% include slides/grafo-parcial-2.svg %}
         <figcaption>Camino mínimo de A a H con Dijkstra: <strong>A, D, C, B, F, E, H</strong> (peso 23)</figcaption>
@@ -15,8 +15,7 @@
         <li>densidad <strong>0,54</strong></li>
         <li>centro <strong>B, C, E, F</strong></li>
       </ul>
-      <p class="regex"><code>(\w{3});\w{3};\d*\.\d*;(\d*\.\d*)</code> <span aria-hidden="true">→</span> <code>('AEP', '680.00')</code></p>
     </div>
-    {% include slides/codigo.html codigo=s.codigo %}
+    {% include slides/codigo.html codigo=diapo.codigo %}
   </div>
 </section>

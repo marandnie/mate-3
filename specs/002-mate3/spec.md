@@ -1,7 +1,7 @@
 # Spec 002: Mate 3, carrusel de la materia
 
-- **Estado:** draft implementado y verificado en local, pendiente de revisión (no publicado)
-- **Fecha:** 2026-10-08
+- **Estado:** draft 2 (con diapositivas de detalle), verificado en local, pendiente de revisión (no publicado)
+- **Fecha:** 2026-10-08 (revisión 2 el mismo día)
 - **Repo:** [marandnie/mate-3](https://github.com/marandnie/mate-3), servido por GitHub Pages en https://mandieto.com.ar/mate-3/
 - **Dueña:** Marina Nieto
 
@@ -21,6 +21,11 @@ Se mantiene el stack (Jekyll en GitHub Pages + reveal.js) y el estilo actual de 
 | D4 | Publicación | Ver el draft antes de hacer push. |
 | D5 | Nombre público | "Marina Nieto" (sin "Andrea"), igual que en el sitio principal. |
 | D6 | Estilo de texto | Sin raya larga (—): se usa guion o dos puntos. |
+| D7 | Profundidad (revisión del draft 1) | Las diapositivas que necesitan más profundidad tienen una flecha hacia abajo a diapositivas de detalle. |
+| D8 | Docente (P1) | Se nombra a la docente, Mónica Hencek, en la portada. |
+| D9 | Notebooks (P2) | Se enlazan tal cual, sin renombrar. |
+| D10 | Fechas (P3) | Se mantienen las de las carpetas de cada clase. Coinciden con las de los propios parciales ("Clase 9, 1-10-2021"); la agenda de 2021 que decía jueves no cambia nada. |
+| D11 | Material de la cátedra (P4) | Queda publicado en el repo como está. |
 
 ## 3. Auditoría del estado actual (2026-10-08)
 
@@ -48,19 +53,26 @@ Material disponible (carpeta local "Mate 3"): 12 clases con fecha (06/08 a 29/10
 
 ### Contenido
 
-- **R1.** Portada: Matemática III, TPI UNSAM, 2.º cuatrimestre 2021, Marina Nieto.
+- **R1.** Portada: Matemática III, TPI UNSAM, 2.º cuatrimestre 2021, Marina Nieto y la docente, Mónica Hencek (D8).
 - **R2.** Mapa (índice) con acceso directo a cada clase, a los parciales y al TP.
 - **R3.** Una diapositiva por clase (12): número, fecha, título, de 3 a 4 temas y un fragmento de código representativo.
 - **R4.** Diapositivas de evaluación: 1.er parcial (en el lugar de la clase 9), 2.º parcial + recuperatorio, y TP final (planteo, método, resultados y conclusión).
 - **R5.** Cierre con links al repo, a los notebooks y al sitio principal.
 - **R6.** El código que sale de entregas de Marina (parciales, TP) se marca con su origen. El resto son ejemplos breves del tema.
 - **R7.** Textos en castellano, sin raya larga, con el nombre "Marina Nieto" (D5, D6).
+- **R18.** Diapositivas de detalle (D7), en pilas verticales de reveal.js debajo de la diapositiva principal:
+  - 1.er parcial: la consigna.
+  - Clase 12: las 5 etapas del análisis de datos, aplicadas al TP.
+  - 2.º parcial: el grafo en números (todas las operaciones del recuperatorio con su resultado) y el ejercicio de regex.
+  - TP final: preparación de los datos, modelo y error, resultados, y simulaciones con la conclusión.
+  - El contenido de detalle sale de los notebooks y del material de la materia; no se inventan resultados.
 
 ### Navegación
 
 - **R8.** Carrusel horizontal: flechas visibles, teclado, swipe, barra de progreso y número de diapositiva (`actual/total`).
 - **R9.** Cada diapositiva tiene URL propia (por ejemplo `/mate-3/#/clase-05`).
 - **R10.** En pantallas verticales (celular) el contenido pasa a una columna y la tipografía queda legible.
+- **R19.** Las diapositivas con detalle lo anuncian: link "Más detalle" al pie, flecha hacia abajo de reveal.js y una marca en su baldosa del mapa. Cada diapositiva de detalle muestra en qué posición de la pila está.
 
 ### Técnica
 
@@ -88,16 +100,14 @@ Verificables con `specs/002-mate3/check.py` (contra el build local o contra el s
 - **CA7.** La imagen `og:image` existe, mide 1200×675 y pesa menos de 200 KB.
 - **CA8.** No existen en el build: `README.md`, `node-modules/reveal.js-master/{demo.html,index.html,examples/,test/}`.
 - **CA9.** (Navegador) reveal.js inicializa, 0 errores de consola, la cantidad de diapositivas es la esperada y `#/clase-05` abre esa clase. Capturas a 1280×800 y 390×844 sin texto cortado ni desbordes.
+- **CA10.** Cada pila vertical tiene una diapositiva principal y al menos una de detalle, todas con `id`; el link "Más detalle" y la marca del mapa apuntan a diapositivas que existen.
 
 ## 7. Fuera de alcance
 
 - Reorganizar o borrar el material de clase que ya está en el repo (PDF, videos, zips; ~480 MB).
-- Renombrar los notebooks (sus nombres de archivo incluyen el nombre completo).
+- Renombrar los notebooks (D9).
 - Corregir el 1.er parcial o rehacer el TP: se muestran como se entregaron.
 
 ## 8. Preguntas abiertas
 
-- **P1.** ¿Nombrar a la docente (Mónica Hencek) en la portada? En el draft: no.
-- **P2.** Los notebooks enlazados tienen `Nieto_Marina_Andrea` en el nombre del archivo. ¿Renombrarlos (y actualizar links)? En el draft: se enlazan tal cual.
-- **P3.** Las fechas salen de los nombres de las carpetas de cada clase (caen viernes); la agenda de la facultad dice jueves. ¿Se muestran igual? En el draft: sí.
-- **P4.** El repo publica el material de la cátedra (PDF y videos) bajo `/mate-3/archivos de clase, pdfs/`. ¿Queda así?
+Ninguna. P1 a P4 del draft 1 quedaron resueltas en D8 a D11.

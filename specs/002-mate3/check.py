@@ -5,7 +5,7 @@ Uso:
     python3 specs/002-mate3/check.py _site                           # build local
     python3 specs/002-mate3/check.py https://mandieto.com.ar/mate-3  # sitio publicado
 
-Valida CA1 a CA8. CA9 (consola, navegación y capturas) se verifica en el navegador.
+Valida CA1 a CA8 y CA10. CA9 (consola, navegación y capturas) se verifica en el navegador.
 Solo usa la biblioteca estándar. Sale con código 1 si algún chequeo falla.
 """
 import argparse
@@ -47,7 +47,9 @@ class Pagina(HTMLParser):
         self.imgs = []
         self.svgs = []
         self.anchors = []
-        self.sections = []  # dicts: id, class, texto
+        self.sections = []  # dicts: id, class, texto (diapositivas)
+        self.pilas = []  # pilas verticales: listas de ids de sus diapositivas
+        self._secciones = []  # pila de <section> abiertas: "pila" o "diapo"
         self.jsonld = []
         self.texto = []
         self._pila = []
@@ -75,13 +77,22 @@ class Pagina(HTMLParser):
         elif tag == "a":
             self.anchors.append(a)
         elif tag == "section":
-            self.sections.append({"id": a.get("id"), "class": a.get("class", ""), "texto": []})
+            if "pila" in a.get("class", "").split():
+                self.pilas.append([])
+                self._secciones.append("pila")
+            else:
+                if self._secciones and self._secciones[-1] == "pila":
+                    self.pilas[-1].append(a.get("id"))
+                self.sections.append({"id": a.get("id"), "class": a.get("class", ""), "texto": []})
+                self._secciones.append("diapo")
         elif tag == "title" and not self._en("svg"):
             self._buf = []
         if tag not in self.VOID:
             self._pila.append(tag)
 
     def handle_endtag(self, tag):
+        if tag == "section" and self._secciones:
+            self._secciones.pop()
         if tag == "title" and self._buf is not None and not self._en("svg"):
             self.titles.append("".join(self._buf).strip())
             self._buf = None
@@ -235,6 +246,15 @@ def main():
         href = a.get("href", "")
         if href.startswith("#/"):
             rep.check("CA4", href[2:] in ids, f"{href}")
+
+    print("\nCA10 pilas verticales (diapositivas de detalle)")
+    rep.check("CA10", len(p.pilas) > 0, f"{len(p.pilas)} pilas")
+    mas_detalle = [a.get("href", "") for a in p.anchors if "mas-detalle" in (a.get("class") or "").split()]
+    for pila in p.pilas:
+        ok = len(pila) >= 2 and None not in pila
+        rep.check("CA10", ok, f"pila {pila}")
+        if ok:
+            rep.check("CA10", f"#/{pila[1]}" in mas_detalle, f"#{pila[0]} tiene \"Más detalle\" hacia #{pila[1]}")
 
     print("\nCA5 imágenes accesibles")
     for img in p.imgs:

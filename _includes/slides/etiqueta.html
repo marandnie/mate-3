@@ -1,11 +1,22 @@
-{%- assign s = include.s -%}
-<p class="etiqueta">
-  {%- if s.etiqueta -%}
-    {{ s.etiqueta }}
-  {%- elsif s.numero -%}
-    Clase {{ s.numero | prepend: '0' | slice: -2, 2 }}{% if s.fecha %} · {{ s.fecha }}{% endif %}
-  {%- else -%}
-    {{ s.fecha }}
-  {%- endif -%}
-  {%- if s.evaluacion %} <span class="marca">Evaluación</span>{% endif -%}
-</p>
+{%- comment -%}
+  Etiqueta arriba del título. En una diapositiva de detalle (include.padre)
+  repite la del padre y suma la posición en la pila.
+{%- endcomment -%}
+{%- assign et_s = include.s -%}
+{%- assign et_base = include.padre | default: et_s -%}
+<div class="etiqueta-fila">
+  <p class="etiqueta">
+    {%- if et_base.etiqueta -%}
+      {{ et_base.etiqueta }}
+    {%- elsif et_base.numero -%}
+      Clase {{ et_base.numero | prepend: '0' | slice: -2, 2 }}{% if et_base.fecha %} · {{ et_base.fecha }}{% endif %}
+    {%- else -%}
+      {{ et_base.fecha }}
+    {%- endif -%}
+    {%- if et_base.evaluacion %} <span class="marca">Evaluación</span>{% endif -%}
+    {%- if include.pos %} <span class="marca posicion" title="Diapositiva {{ include.pos }} de {{ include.total }} de esta pila">{{ include.pos }} / {{ include.total }}</span>{% endif -%}
+  </p>
+  {%- if et_s.detalle %}
+  <a class="mas-detalle" href="#/{{ et_s.detalle.first.id }}">Más detalle <span aria-hidden="true">↓</span></a>
+  {%- endif %}
+</div>
